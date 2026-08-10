@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyBrief | News That Matters, In Minutes</title>
+    <meta name="description" content="DailyBrief provides short, accurate, and easy-to-read news summaries for busy readers.">
+    <meta name="theme-color" content="#0d233a">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="DailyBrief - News That Matters, In Minutes">
+    <meta property="og:description" content="Quick, concise, accurate news summaries across business, law, tech, and current affairs.">
+    <meta property="og:type" content="website">
+
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsMediaOrganization",
+      "name": "DailyBrief",
+      "url": "https://dailybrief.example.com",
+      "logo": "https://dailybrief.example.com/logo.png",
+      "slogan": "News That Matters, In Minutes"
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-surface: #ffffff;
+            --bg-secondary: #e9ecef;
+            --text-primary: #121824;
+            --text-muted: #5a6275;
+            --brand-blue: #0d233a;
+            --brand-blue-hover: #153456;
+            --brand-orange: #ff6b35;
+            --brand-orange-hover: #e05522;
+            --border-color: #dbe0e6;
+            --focus-ring: #005fcc;
+            --font-scale: 100%;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0a0e14;
+            --bg-surface: #121824;
+            --bg-secondary: #1c2433;
+            --text-primary: #f0f4f8;
+            --text-muted: #9aa5b5;
+            --brand-blue: #1e3a5f;
+            --brand-blue-hover: #294d7d;
+            --border-color: #2a3447;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-contrast="high"] {
+            --bg-primary: #000000 !important;
+            --bg-surface: #000000 !important;
+            --bg-secondary: #1a1a1a !important;
+            --text-primary: #ffffff !important;
+            --text-muted: #ffff00 !important;
+            --border-color: #ffffff !important;
+            --brand-blue: #0000ff !important;
+            --brand-orange: #ff5500 !important;
+            --focus-ring: #ffff00 !important;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: var(--font-scale);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        /* Accessibility Focus Styling */
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 3px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            background: var(--brand-orange);
+            color: #ffffff;
+            padding: 8px 16px;
+            z-index: 1000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 0 0 4px 4px;
+            transition: top 0.2s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Accessibility Control Toolbar */
+        .a11y-bar {
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            padding: 6px 1rem;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .a11y-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .a11y-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .a11y-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Top Header */
+        header {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--brand-blue);
+            letter-spacing: -0.5px;
+        }
+
+        [data-theme="dark"] .brand-name {
+            color: #ffffff;
+        }
+
+        .brand-name span {
+            color: var(--brand-orange);
+        }
+
+        .brand-tagline {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Search Bar */
+        .search-form {
+            display: flex;
+            flex: 1;
+            max-width: 480px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            bottom: 4px;
+            border: none;
+            background-color: var(--brand-orange);
+            color: #ffffff;
+            padding: 0 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Navigation Menu */
+        nav {
+            background-color: var(--bg-surface);
+            border-bottom: 2px solid var(--border-color);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--brand-orange);
+            border-bottom-color: var(--brand-orange);
+        }
+
+        /* Layout Grid */
+        .main-container {
+            max-width: 1280px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            .header-container {
+                flex-wrap: wrap;
+            }
+            .search-form {
+                order: 3;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        /* Breaking News Banner */
+        .breaking-banner {
+            grid-column: 1 / -1;
+            background-color: var(--brand-orange);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
+            overflow: hidden;
+            font-weight: 600;
+        }
+
+        .breaking-label {
+            background-color: #ba3200;
+            padding: 0.6rem 1rem;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breaking-text {
+            padding: 0.6rem 1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Stock Snapshot Banner */
+        .stock-ticker {
+            grid-column: 1 / -1;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.6rem 1rem;
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+
+        .stock-item {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .stock-up { color: #00875a; font-weight: bold; }
+        .stock-down { color: #de350b; font-weight: bold; }
+
+        /* Card Components */
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--brand-orange);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--brand-blue);
+        }
+
+        [data-theme="dark"] .card-title { color: #ffffff; }
+
+        .category-badge {
+            display: inline-block;
+            background-color: var(--bg-secondary);
+            color: var(--brand-orange);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Headline Cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .news-article-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .news-article-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .news-article-card h3 a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .news-article-card h3 a:hover {
+            color: var(--brand-orange);
+        }
+
+        .article-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .bullet-summary {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid var(--brand-orange);
+            padding: 0.75rem;
+            border-radius: 0 4px 4px 0;
+            margin: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+
+        .bullet-summary ul {
+            padding-left: 1.2rem;
+        }
+
+        /* Sidebar Lists */
+        .list-news {
+            list-style: none;
+        }
+
+        .list-news-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .list-news-item:last-child { border-bottom: none; }
+
+        .list-news-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: block;
+        }
+
+        .list-news-item a:hover { color: var(--brand-orange); }
+
+        /* Newsletter Box */
+        .newsletter-box {
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .newsletter-box h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .newsletter-box p { font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.9; }
+
+        .newsletter-form input {
+            width: 100%;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .newsletter-form button {
+            width: 100%;
+            padding: 0.6rem;
+            background-color: var(--brand-orange);
+            border: none;
+            color: #ffffff;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Page View Engine Toggling */
+        .page-view {
+            display: none;
+        }
+        .page-view.active {
+            display: block;
+        }
+
+        /* Article Reader Specifics */
+        .article-reader {
+            background: var(--bg-surface);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .article-reader h1 {
+            font-size: 2rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .reader-tools {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .btn-action:hover {
+            background-color: var(--brand-orange);
+            color: #ffffff;
+        }
+
+        .key-takeaways {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--brand-blue);
+            padding: 1.25rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+
+        .key-takeaways h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--brand-blue);
+        }
+
+        [data-theme="dark"] .key-takeaways h2 { color: var(--brand-orange); }
+
+        /* Admin Section */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-grid { grid-template-columns: 1fr; }
+        }
+
+        .admin-nav {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+        }
+
+        .admin-nav button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.6rem 0.8rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .admin-nav button:hover, .admin-nav button.active {
+            background: var(--brand-blue);
+            color: #ffffff;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-surface);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .data-table th, .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .data-table th {
+            background: var(--bg-secondary);
+            font-weight: 700;
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--brand-blue);
+            color: #ffffff;
+            margin-top: 3rem;
+            padding: 2.5rem 1rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            color: var(--brand-orange);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #dbe0e6;
+            text-decoration: none;
+            font-size: 0.88rem;
+            cursor: pointer;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #9aa5b5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <!-- Top Accessibility Bar -->
+    <div class="a11y-bar" role="region" aria-label="Accessibility Bar">
+        <div>
+            <span>Accessibility Options:</span>
+        </div>
+        <div class="a11y-controls">
+            <button class="a11y-btn" onclick="adjustFontSize(-10)" aria-label="Decrease Font Size">A-</button>
+            <button class="a11y-btn" onclick="adjustFontSize(0)" aria-label="Reset Font Size">Reset</button>
+            <button class="a11y-btn" onclick="adjustFontSize(10)" aria-label="Increase Font Size">A+</button>
+            <button class="a11y-btn" onclick="toggleHighContrast()" id="contrast-toggle-btn" aria-label="Toggle High Contrast Mode">High Contrast</button>
+        </div>
+    </div>
+
+    <!-- Website Header -->
+    <header role="banner">
+        <div class="header-container">
+            <a href="#" onclick="showView('home-view')" class="brand" aria-label="DailyBrief Home">
+                <span class="brand-name">Daily<span>Brief</span></span>
+                <span class="brand-tagline">News That Matters, In Minutes</span>
+            </a>
+
+            <!-- Search Form -->
+            <form class="search-form" onsubmit="event.preventDefault(); performSearch();" role="search">
+                <input type="search" id="site-search" class="search-input" placeholder="Search news, topics, keywords..." aria-label="Search DailyBrief news">
+                <button type="submit" class="search-btn" aria-label="Execute Search">Search</button>
+            </form>
+
+            <div class="header-actions">
+                <button class="btn-action" onclick="toggleTheme()" id="theme-btn" aria-label="Toggle Light/Dark Theme">🌙 Dark Mode</button>
+                <button class="btn-action" onclick="showView('admin-view')" aria-label="Admin Dashboard Access">⚙️ Admin</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav role="navigation" aria-label="Main Categories Navigation">
+        <ul class="nav-container" id="category-nav">
+            <li><a class="nav-link active" onclick="filterCategory('All', this)">Home</a></li>
+            <li><a class="nav-link" onclick="filterCategory('National', this)">National (India)</a></li>
+            <li><a class="nav-link" onclick="filterCategory('International', this)">International</a></li>
+            <li><a class="nav-link" onclick="filterCategory('Current Affairs', this)">Current Affairs</a></li>
+            <li><a class="nav-link" onclick="filterCategory('Business', this)">Business & Economy</a></li>
+            <li><a class="nav-link" onclick="filterCategory('Stock Market', this)">Stock Market</a></li>
+            <li><a class="nav-link" onclick="filterCategory('Technology', this)">Technology</a></li>
+            <li><a class="nav-link" onclick="filterCategory('Law & Policy', this)">Law & Policy</a></li>
+            <li><a class="nav-link" onclick="filterCategory('Sports', this)">Sports</a></li>
+            <li><a class="nav-link" onclick="filterCategory('Education', this)">Education</a></li>
+        </ul>
+    </nav>
+
+    <!-- Core Content Wrapper -->
+    <main id="main-content" tabIndex="-1">
+
+        <!-- VIEW 1: HOMEPAGE -->
+        <div id="home-view" class="page-view active">
+            <div class="main-container">
+                
+                <!-- Breaking News Ticker -->
+                <div class="breaking-banner" role="region" aria-label="Breaking News Ticker">
+                    <div class="breaking-label">⚡ Breaking</div>
+                    <div class="breaking-text" id="breaking-text">RBI Keeps Repo Rate Unchanged at 6.5%; Forecasts Steady GDP Growth for Q3.</div>
+                </div>
+
+                <!-- Stock Ticker Snapshot -->
+                <div class="stock-ticker" role="region" aria-label="Stock Market Snapshot">
+                    <div class="stock-item"><strong>NIFTY 50:</strong> 24,320.10 <span class="stock-up">+112.40 (+0.46%)</span></div>
+                    <div class="stock-item"><strong>SENSEX:</strong> 79,890.50 <span class="stock-up">+340.15 (+0.43%)</span></div>
+                    <div class="stock-item"><strong>GOLD (10g):</strong> ₹74,250 <span class="stock-down">-120.00 (-0.16%)</span></div>
+                    <div class="stock-item"><strong>SILVER (1kg):</strong> ₹83,400 <span class="stock-up">+450.00 (+0.54%)</span></div>
+                    <div class="stock-item"><strong>USD/INR:</strong> 83.92 <span class="stock-down">-0.04 (-0.05%)</span></div>
+                </div>
+
+                <!-- Main Content Left Column -->
+                <section aria-label="Top News Articles">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Top Headlines</h2>
+                            <span id="active-category-title" style="font-size: 0.85rem; color: var(--text-muted);">All Categories</span>
+                        </div>
+
+                        <div class="grid-2" id="articles-container">
+                            <!-- Dynamic Content Rendered Here via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Daily Brief / Exam & Investor Focus Section -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">🎯 Current Affairs Daily Brief</h2>
+                            <span style="font-size: 0.8rem; font-weight: bold; color: var(--brand-orange);">Quick 60-Sec Summary</span>
+                        </div>
+                        <article>
+                            <span class="category-badge">Law & Policy</span>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Digital Personal Data Protection Act: Key Compliance Guidelines Finalized</h3>
+                            <div class="bullet-summary">
+                                <strong>Key Takeaways for Students & Professionals:</strong>
+                                <ul>
+                                    <li>Data fiduciaries must implement strict consent managers within 90 days.</li>
+                                    <li>Heavy penalties up to ₹250 Cr outlined for significant security breaches.</li>
+                                    <li>Exemptions granted for research and academic institutional processing under strict guidelines.</li>
+                                </ul>
+                            </div>
+                            <button class="btn-action" onclick="openArticle(1)">Read Full Summary →</button>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Sidebar Right Column -->
+                <aside aria-label="Sidebar Widgets">
+                    
+                    <!-- Trending Section -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title" style="font-size: 1.1rem;">🔥 Trending Stories</h2>
+                        </div>
+                        <ul class="list-news">
+                            <li class="list-news-item">
+                                <span class="category-badge">Stock Market</span>
+                                <a href="#" onclick="openArticle(2)">IT Stocks Rally Following Strong Earnings Signals</a>
+                            </li>
+                            <li class="list-news-item">
+                                <span class="category-badge">Technology</span>
+                                <a href="#" onclick="openArticle(3)">New AI Patent Guidelines Released by Indian Patent Office</a>
+                            </li>
+                            <li class="list-news-item">
+                                <span class="category-badge">Education</span>
+                                <a href="#" onclick="openArticle(1)">UGC Announces Revised National Credit Framework Standards</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter Subscription Widget -->
+                    <div class="newsletter-box">
+                        <h3>DailyBrief Inbox</h3>
+                        <p>Get essential news summaries delivered directly to your email every morning at 7 AM.</p>
+                        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to DailyBrief!');">
+                            <input type="email" placeholder="Enter your email address" aria-label="Email for newsletter subscription" required>
+                            <button type="submit">Subscribe Free</button>
+                        </form>
+                    </div>
+
+                    <!-- Most Read Sidebar Card -->
+                    <div class="card" style="margin-top: 1.5rem;">
+                        <div class="card-header">
+                            <h2 class="card-title" style="font-size: 1.1rem;">📊 Most Read This Week</h2>
+                        </div>
+                        <ol style="padding-left: 1.2rem; line-height: 1.8;">
+                            <li><a href="#" onclick="openArticle(2)" style="color: var(--text-primary); text-decoration: none; font-weight: 600;">Understanding Capital Gains Tax Updates</a></li>
+                            <li style="margin-top: 8px;"><a href="#" onclick="openArticle(3)" style="color: var(--text-primary); text-decoration: none; font-weight: 600;">Global Supply Chain Index Hits 12-Month High</a></li>
+                        </ol>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <!-- VIEW 2: ARTICLE READER -->
+        <div id="article-view" class="page-view">
+            <div class="main-container" style="grid-template-columns: 1fr;">
+                <article class="article-reader">
+                    <button class="btn-action" onclick="showView('home-view')" style="margin-bottom: 1rem;">← Back to Main Feed</button>
+                    <br>
+                    <span class="category-badge" id="art-category">Category</span>
+                    <h1 id="art-title">Article Title Placeholder</h1>
+                    
+                    <div class="article-meta">
+                        <span id="art-date">Published: August 10, 2026</span> • 
+                        <span>Reading Time: 2 Mins</span> • 
+                        <span>Author: DailyBrief Desk</span>
+                    </div>
+
+                    <div class="reader-tools">
+                        <button class="btn-action" id="tts-btn" onclick="speakArticle()" aria-label="Listen to Article Summary">🔊 Read Aloud (Text-to-Speech)</button>
+                        <button class="btn-action" onclick="alert('Article link copied to clipboard!')" aria-label="Share Article">🔗 Share Article</button>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h2>📌 Key Bullet Points</h2>
+                        <ul id="art-keypoints" style="padding-left: 1.2rem;">
+                            <!-- Populated via JS -->
+                        </ul>
+                    </div>
+
+                    <div id="art-body" style="font-size: 1.05rem; line-height: 1.8;">
+                        <!-- Full Brief Content Populated via JS -->
+                    </div>
+
+                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                        <button class="btn-action" onclick="showView('home-view')">Back to News Home</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- VIEW 3: ADMIN DASHBOARD -->
+        <div id="admin-view" class="page-view">
+            <div class="main-container" style="grid-template-columns: 1fr;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">⚙️ DailyBrief Editorial & Admin Control Panel</h2>
+                        <button class="btn-action" onclick="showView('home-view')">Exit Admin</button>
+                    </div>
+
+                    <div class="admin-grid">
+                        <div class="admin-nav">
+                            <button class="active">Articles</button>
+                            <button onclick="alert('Analytics Dashboard: 124,500 Monthly Active Readers')">Analytics</button>
+                            <button onclick="alert('Category Manager: 12 Active Categories')">Categories</button>
+                            <button onclick="alert('Subscribers: 14,200 Active Email List')">Subscribers</button>
+                        </div>
+
+                        <div>
+                            <h3 style="margin-bottom: 1rem;">Publish New Brief</h3>
+                            <form onsubmit="event.preventDefault(); addNewArticle();" style="background: var(--bg-secondary); padding: 1rem; border-radius: 6px; margin-bottom: 2rem;">
+                                <div class="form-group">
+                                    <label for="new-title">Headline</label>
+                                    <input type="text" id="new-title" required placeholder="Enter concise news headline">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div class="form-group">
+                                        <label for="new-cat">Category</label>
+                                        <select id="new-cat">
+                                            <option>National</option>
+                                            <option>Business</option>
+                                            <option>Stock Market</option>
+                                            <option>Technology</option>
+                                            <option>Law & Policy</option>
+                                            <option>Sports</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="new-status">Publish Status</label>
+                                        <select id="new-status">
+                                            <option>Published</option>
+                                            <option>Scheduled</option>
+                                            <option>Draft</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-summary">Summary Text (100-200 Words)</label>
+                                    <textarea id="new-summary" rows="3" required placeholder="Concise background and context..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-action" style="background: var(--brand-orange); color: #fff; border: none;">Publish News Brief</button>
+                            </form>
+
+                            <h3 style="margin-bottom: 1rem;">Manage Existing Content</h3>
+                            <table class="data-table" aria-label="Published Articles Table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-table-body">
+                                    <!-- Populated JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: STATIC PAGES (About/Privacy/Terms) -->
+        <div id="static-view" class="page-view">
+            <div class="main-container" style="grid-template-columns: 1fr;">
+                <div class="card">
+                    <h1 id="static-page-title" style="margin-bottom: 1rem;">About DailyBrief</h1>
+                    <div id="static-page-content" style="line-height: 1.8;">
+                        <p>DailyBrief is an independent news summary platform engineered for busy professionals, students, investors, and competitive exam candidates.</p>
+                        <br>
+                        <p>Our core mission is to filter through noise, extract verifiable facts, and deliver high-impact bulleted briefings in 300 words or less.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Site Footer -->
+    <footer role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4 style="color: #fff; font-size: 1.3rem;">Daily<span>Brief</span></h4>
+                <p style="font-size: 0.85rem; color: #dbe0e6; margin-top: 0.5rem;">
+                    News That Matters, In Minutes.<br>
+                    Short, unbiased, and accessible briefings for the modern reader.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Categories</h4>
+                <ul class="footer-links">
+                    <li><a onclick="filterCategory('National')">National News</a></li>
+                    <li><a onclick="filterCategory('Business')">Business & Economy</a></li>
+                    <li><a onclick="filterCategory('Stock Market')">Stock Market & Gold</a></li>
+                    <li><a onclick="filterCategory('Law & Policy')">Law & Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company & Legal</h4>
+                <ul class="footer-links">
+                    <li><a onclick="loadStaticPage('About Us')">About Us</a></li>
+                    <li><a onclick="loadStaticPage('Contact Us')">Contact Us</a></li>
+                    <li><a onclick="loadStaticPage('Privacy Policy')">Privacy Policy</a></li>
+                    <li><a onclick="loadStaticPage('Terms & Conditions')">Terms & Conditions</a></li>
+                    <li><a onclick="loadStaticPage('Disclaimer')">Editorial Disclaimer</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Monetization & Ads</h4>
+                <ul class="footer-links">
+                    <li><a onclick="loadStaticPage('Advertise')">Advertise With Us</a></li>
+                    <li><a onclick="loadStaticPage('Sponsored Content')">Sponsored Content Guidelines</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 DailyBrief News Network. Designed for high speed, accessibility, and high readability.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Engine -->
+    <script>
+        // Mock Article Database
+        let articlesDB = [
+            {
+                id: 1,
+                title: "Digital Personal Data Protection Act Implementation Guidelines Released",
+                category: "Law & Policy",
+                date: "Aug 10, 2026",
+                summary: "The Ministry of Electronics and Information Technology has released comprehensive operational guidelines for the DPDP Act. The rules lay down compliance frameworks for data fiduciaries, consent managers, and audit obligations.",
+                keypoints: [
+                    "Data consent mechanisms must be straightforward and available in 22 official languages.",
+                    "Provisions established for voluntary compliance for early-stage startups.",
+                    "Appellate tribunal framework finalized for dispute resolutions."
+                ],
+                status: "Published"
+            },
+            {
+                id: 2,
+                title: "RBI Keeps Repo Rate Intact at 6.5%; Highlights Macro Stability",
+                category: "Business",
+                date: "Aug 10, 2026",
+                summary: "The Reserve Bank of India Monetary Policy Committee voted unanimously to keep key interest rates unchanged. Inflation projections remain stable near target corridors, while headline industrial output shows positive expansion.",
+                keypoints: [
+                    "Repo rate sustained at 6.50% for seventh consecutive meeting.",
+                    "GDP growth projected at robust 7.0% for current fiscal year.",
+                    "Liquidity adjustment facility kept balanced to support credit flow."
+                ],
+                status: "Published"
+            },
+            {
+                id: 3,
+                title: "Indian Patent Office Issues New Guidelines for AI and Software Patents",
+                category: "Technology",
+                date: "Aug 09, 2026",
+                summary: "Revised patent examination rules clarify eligible subject matter for artificial intelligence inventions and computer-implemented algorithms, addressing long-standing technical effect requirements.",
+                keypoints: [
+                    "Technical contribution test defined for computer program claims.",
+                    "Faster examination queues introduced for green technology and AI startups.",
+                    "Improved alignment with global IP practices in WIPO jurisdictions."
+                ],
+                status: "Published"
+            },
+            {
+                id: 4,
+                title: "National Highway Expansion Target Set for 12,000 Km This Fiscal",
+                category: "National",
+                date: "Aug 08, 2026",
+                summary: "The Ministry of Road Transport announced accelerated targets for expressways and economic corridors to enhance domestic freight movement efficiency.",
+                keypoints: [
+                    "Focus on high-density freight expressways.",
+                    "Integration of GPS-based toll collection technology nationwide.",
+                    "Increased private-public partnership (PPP) capital allocation."
+                ],
+                status: "Published"
+            }
+        ];
+
+        // Engine State
+        let currentFontSize = 100;
+        let isHighContrast = false;
+        let currentTheme = 'light';
+        let synth = window.speechSynthesis;
+
+        // View Routing Engine
+        function showView(viewId) {
+            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Render Articles on Homepage
+        function renderArticles(items) {
+            const container = document.getElementById('articles-container');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; padding: 2rem; text-align: center;">No news briefs found matching your search or category choice.</p>`;
+                return;
+            }
+
+            items.forEach(art => {
+                const card = document.createElement('article');
+                card.className = 'card news-article-card';
+                card.innerHTML = `
+                    <div>
+                        <span class="category-badge">${art.category}</span>
+                        <h3><a href="#" onclick="openArticle(${art.id})">${art.title}</a></h3>
+                        <div class="bullet-summary">
+                            <ul>
+                                ${art.keypoints.slice(0, 2).map(kp => `<li>${kp}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="article-meta">
+                        <span>${art.date}</span> • 
+                        <a href="#" onclick="openArticle(${art.id})" style="color: var(--brand-orange); font-weight: bold; text-decoration: none;">Full Brief →</a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Open Individual Article Reader
+        function openArticle(id) {
+            const article = articlesDB.find(a => a.id === id);
+            if (!article) return;
+
+            document.getElementById('art-category').innerText = article.category;
+            document.getElementById('art-title').innerText = article.title;
+            document.getElementById('art-date').innerText = `Published: ${article.date}`;
+            
+            const kpList = document.getElementById('art-keypoints');
+            kpList.innerHTML = article.keypoints.map(kp => `<li>${kp}</li>`).join('');
+
+            document.getElementById('art-body').innerHTML = `
+                <p><strong>Executive Summary:</strong> ${article.summary}</p>
+                <br>
+                <p>DailyBrief analyzes core policy developments, business moves, and technical updates to save readers time. Stay informed with short, factual daily briefings.</p>
+            `;
+
+            showView('article-view');
+        }
+
+        // Filter by Category
+        function filterCategory(categoryName, element) {
+            if (element) {
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                element.classList.add('active');
+            }
+
+            document.getElementById('active-category-title').innerText = categoryName === 'All' ? 'All Categories' : categoryName;
+
+            showView('home-view');
+            if (categoryName === 'All') {
+                renderArticles(articlesDB);
+            } else {
+                const filtered = articlesDB.filter(a => a.category.toLowerCase().includes(categoryName.toLowerCase()));
+                renderArticles(filtered);
+            }
+        }
+
+        // Search Engine
+        function performSearch() {
+            const query = document.getElementById('site-search').value.toLowerCase().trim();
+            if (!query) {
+                renderArticles(articlesDB);
+                return;
+            }
+
+            showView('home-view');
+            const results = articlesDB.filter(a => 
+                a.title.toLowerCase().includes(query) || 
+                a.summary.toLowerCase().includes(query) || 
+                a.category.toLowerCase().includes(query)
+            );
+            
+            document.getElementById('active-category-title').innerText = `Search: "${query}"`;
+            renderArticles(results);
+        }
+
+        // Accessibility Functions
+        function adjustFontSize(delta) {
+            if (delta === 0) {
+                currentFontSize = 100;
+            } else {
+                currentFontSize = Math.min(Math.max(currentFontSize + delta, 80), 140);
+            }
+            document.documentElement.style.setProperty('--font-scale', `${currentFontSize}%`);
+        }
+
+        function toggleHighContrast() {
+            isHighContrast = !isHighContrast;
+            const btn = document.getElementById('contrast-toggle-btn');
+            if (isHighContrast) {
+                document.documentElement.setAttribute('data-contrast', 'high');
+                btn.setAttribute('aria-pressed', 'true');
+            } else {
+                document.documentElement.removeAttribute('data-contrast');
+                btn.setAttribute('aria-pressed', 'false');
+            }
+        }
+
+        function toggleTheme() {
+            const themeBtn = document.getElementById('theme-btn');
+            if (currentTheme === 'light') {
+                currentTheme = 'dark';
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeBtn.innerText = '☀️ Light Mode';
+            } else {
+                currentTheme = 'light';
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeBtn.innerText = '🌙 Dark Mode';
+            }
+        }
+
+        // Text-To-Speech (Accessibility Feature)
+        function speakArticle() {
+            if (!('speechSynthesis' in window)) {
+                alert('Text-to-speech is not supported in your browser.');
+                return;
+            }
+
+            if (synth.speaking) {
+                synth.cancel();
+                document.getElementById('tts-btn').innerText = '🔊 Read Aloud (Text-to-Speech)';
+                return;
+            }
+
+            const title = document.getElementById('art-title').innerText;
+            const body = document.getElementById('art-body').innerText;
+            const textToRead = `${title}. Summary: ${body}`;
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.rate = 0.95;
+            
+            utterance.onend = function() {
+                document.getElementById('tts-btn').innerText = '🔊 Read Aloud (Text-to-Speech)';
+            };
+
+            document.getElementById('tts-btn').innerText = '⏹️ Stop Reading';
+            synth.speak(utterance);
+        }
+
+        // Admin Table Management
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-table-body');
+            tbody.innerHTML = '';
+            
+            articlesDB.forEach(art => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${art.title}</strong></td>
+                    <td>${art.category}</td>
+                    <td><span style="color: green; font-weight: bold;">${art.status}</span></td>
+                    <td>
+                        <button class="btn-action" onclick="deleteArticle(${art.id})" style="color: red;">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function addNewArticle() {
+            const title = document.getElementById('new-title').value;
+            const category = document.getElementById('new-cat').value;
+            const summary = document.getElementById('new-summary').value;
+            const status = document.getElementById('new-status').value;
+
+            const newId = articlesDB.length + 1;
+            const newArt = {
+                id: newId,
+                title: title,
+                category: category,
+                date: "Today",
+                summary: summary,
+                keypoints: ["Newly published briefing item.", "Verified through editorial workflow."],
+                status: status
+            };
+
+            articlesDB.unshift(newArt);
+            renderArticles(articlesDB);
+            renderAdminTable();
+            alert('Article successfully created!');
+            showView('home-view');
+        }
+
+        function deleteArticle(id) {
+            articlesDB = articlesDB.filter(a => a.id !== id);
+            renderArticles(articlesDB);
+            renderAdminTable();
+        }
+
+        // Static Pages Renderer
+        function loadStaticPage(pageTitle) {
+            document.getElementById('static-page-title').innerText = pageTitle;
+            const content = document.getElementById('static-page-content');
+
+            if (pageTitle === 'Privacy Policy') {
+                content.innerHTML = `<p>DailyBrief respects user privacy. We do not track personal identification without explicit consent. Cookies are solely utilized for theme and accessibility preference memory.</p>`;
+            } else if (pageTitle === 'Contact Us') {
+                content.innerHTML = `
+                    <p>Contact our editorial desk or technical team:</p><br>
+                    <p><strong>Email:</strong> editorial@dailybrief.example.com</p>
+                    <p><strong>Press Inquiries:</strong> press@dailybrief.example.com</p>
+                `;
+            } else if (pageTitle === 'Advertise') {
+                content.innerHTML = `<p>Reach decision-makers, students, law professionals, and investors through non-intrusive newsletter sponsorships and verified native content partnerships.</p>`;
+            } else {
+                content.innerHTML = `<p>Welcome to ${pageTitle} page for DailyBrief. Providing transparent news summaries for time-conscious readers worldwide.</p>`;
+            }
+
+            showView('static-view');
+        }
+
+        // Initialize on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderArticles(articlesDB);
+            renderAdminTable();
+        });
+    </script>
+</body>
+</html>
